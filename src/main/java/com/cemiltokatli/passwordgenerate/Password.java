@@ -2,6 +2,7 @@ package com.cemiltokatli.passwordgenerate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * An object of this class represents a single password generation process.
@@ -11,26 +12,36 @@ public class Password {
     private int minLength;
     private int maxLength;
     private List<Character> excludedChars;
-    private static char[] characters = {
-            '~','`','!','@','#','£','€','$','(',')','*','^','&','°','%','§','¥','¢','?','.',',','<','>','\'','"',';',':','/','\\','|','[',']','{','}','=','+','_','-',' ',
-            '0','1','2','3','4','5','6','7','8','9',
-            'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'
-    };
 
     private Password(){
         type = PasswordType.ALL;
         minLength = 5;
+        maxLength = 10;
         excludedChars = new ArrayList<>();
     }
 
     private Password(PasswordType type){
+        this();
         this.type = type;
     }
 
     private Password(PasswordType type, int minLength){
+        this();
         this.type = type;
+
         if(minLength > 0)
             this.minLength = minLength;
+    }
+
+    private Password(PasswordType type, int minLength, int maxLength){
+        this();
+        this.type = type;
+
+        if(minLength > 0)
+            this.minLength = minLength;
+
+        if(maxLength > 0)
+            this.maxLength = maxLength;
     }
 
     /**
@@ -38,8 +49,10 @@ public class Password {
      * Initial values:
      *      - type : All
      *      - minLength : 5
-     *      - maxLength : 0
+     *      - maxLength : 10
      *      - excludedChars : Empty
+     *
+     * @return the created object
      */
     public static Password createPassword(){
         return new Password();
@@ -49,6 +62,7 @@ public class Password {
      * Creates a new object with given type and initial values for other attributes.
      *
      * @param type type of the password to be generated
+     * @return the created object
      */
     public static Password createPassword(PasswordType type){
         return new Password(type);
@@ -60,9 +74,21 @@ public class Password {
      *
      * @param type type of the password to be generated
      * @param minLength minimum length of the password to be generated
+     * @return the created object
      */
     public static Password createPassword(PasswordType type, int minLength){
         return new Password(type, minLength);
+    }
+
+    /**
+     *
+     * @param type type of the password to be generated
+     * @param minLength minimum length of the password to be generated
+     * @param maxLength maximum length of the password to be generated
+     * @return the created object
+     */
+    public static Password createPassword(PasswordType type, int minLength, int maxLength){
+        return new Password(type, minLength, maxLength);
     }
 
     /**
@@ -134,10 +160,26 @@ public class Password {
      * This character is not presented in the password.
      *
      * @param chr character to be excluded
+     * @return the Password object
      */
-    public void addExcludedChar(char chr){
+    public Password addExcludedChar(char chr){
         if(!this.excludedChars.contains(chr))
             this.excludedChars.add(chr);
+
+        return this;
+    }
+
+    /**
+     * Adds the given characters in the excluded list.
+     *
+     * @param chrs Characters to be excluded
+     * @return the Password object
+     */
+    public Password addExcludedChars(char[] chrs){
+        for(char c : chrs)
+            addExcludedChar(c);
+
+        return this;
     }
 
     /**
@@ -145,9 +187,12 @@ public class Password {
      * This character may be added in the password.
      *
      * @param chr character to be removed from the excluded list
+     * @return the Password object
      */
-    public void removeExcludedChar(char chr){
+    public Password removeExcludedChar(char chr){
         this.excludedChars.remove(this.excludedChars.indexOf(chr));
+
+        return this;
     }
 
     /**
@@ -156,6 +201,23 @@ public class Password {
      * @return generated password
      */
     public String generate(){
-        
+        Random rand = new Random();
+
+        //Length of the password to be created
+        int length;
+        if(minLength == maxLength) //Fixed length
+            length = minLength;
+        else{
+            length = rand.nextInt((maxLength - minLength) + 1) + minLength;
+        }
+
+        //Generate
+        StringBuilder generatedPassword = new StringBuilder();
+
+        for(int i = 0; i < length; i++){
+            generatedPassword.append(type.getRandomChar(excludedChars));
+        }
+
+        return generatedPassword.toString();
     }
 }
