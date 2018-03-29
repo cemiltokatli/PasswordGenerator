@@ -1,4 +1,4 @@
-package com.cemiltokatli.passswordgenerate;
+package com.cemiltokatli.passswordgenerate.test;
 
 import com.cemiltokatli.passwordgenerate.Password;
 import com.cemiltokatli.passwordgenerate.PasswordType;
