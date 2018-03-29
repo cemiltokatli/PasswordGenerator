@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.*;
 import java.io.File;
+import java.util.regex.Pattern;
 
 /**
  * This class is designed for testing the Password class under the "com.cemiltokatli.passwordgenerate" package.
@@ -92,11 +93,11 @@ public class PasswordTest {
     }
 
     /**
-     * Test the generated password's length without excluding any character
+     * Tests the generated password's length
      */
     @Test
-    @DisplayName("Test generated password length without excluding characters")
-    public void testPasswordGenerator(){
+    @DisplayName("Test generated password length")
+    public void testLength(){
         if(!testData.isEmpty())
             readTestData("PasswordTestData", testData);
 
@@ -117,7 +118,52 @@ public class PasswordTest {
         }
     }
 
-    
+    /**
+     * Tests if the generated password contains only expected characters
+     * without excluding any character
+     */
+    @Test
+    @DisplayName("Test generated password type")
+    public void testType(){
+        if(!testData.isEmpty())
+            readTestData("PasswordTestData", testData);
+
+        String alphaPattern = "[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]*";
+        String numericPattern = "[0123456789]*";
+        String alphanumericPattern = "[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789]*";
+        String symbolPattern = "[~`!@#£€$()*^&°%§¥¢?.,<>'\";:/\\\\|\\[\\]{}=+_\\-]*";
+        String allPattern = "[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#£€$()*^&°%§¥¢?.,<>'\";:/\\\\|\\[\\]{}=+_\\-]*";
+
+        String generatedPassword;
+        PasswordGenerate password;
+
+        for(int i = 0; i < testData.size(); i++){
+            for(int j = 0; j < 20; j++){ //Test each of test criteria 20 different generation
+                password = testData.get(i);
+
+                if(password.excluded.length == 0){
+                    generatedPassword = Password.createPassword(password.type, password.minLength, password.maxLength).generate();
+
+                    if(password.type == PasswordType.ALL){
+                        assertEquals(true, Pattern.matches(allPattern, generatedPassword), "Password contains wrong characters. Password: "+generatedPassword+" Type: All");
+                    }
+                    else if(password.type == PasswordType.ALPHA){
+                        assertEquals(true, Pattern.matches(alphaPattern, generatedPassword), "Password contains wrong characters. Password: "+generatedPassword+" Type: Alpha");
+                    }
+                    else if(password.type == PasswordType.NUMERIC){
+                        assertEquals(true, Pattern.matches(numericPattern, generatedPassword), "Password contains wrong characters. Password: "+generatedPassword+" Type: Numeric");
+                    }
+                    else if(password.type == PasswordType.ALPHANUMERIC){
+                        assertEquals(true, Pattern.matches(alphanumericPattern, generatedPassword), "Password contains wrong characters. Password: "+generatedPassword+" Type: Alphanumeric");
+                    }
+                    else if(password.type == PasswordType.SYMBOLS){
+                        assertEquals(true, Pattern.matches(symbolPattern, generatedPassword), "Password contains wrong characters. Password: "+generatedPassword+" Type: Symbols");
+                    }
+                }
+            }
+        }
+    }
+
 
     /**
      * An object of this class represents a single password generating process for testing purposes.
