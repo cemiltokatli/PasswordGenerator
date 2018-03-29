@@ -49,14 +49,18 @@ public enum PasswordType {
      * The characters given with the argument are excluded.
      *
      * @param excluded characters to be excluded
+     * @param lastChar previously generated character, this char also is excluded to prevent repeating
      * @return character
      */
-    char getRandomChar(List<Character> excluded){
+    char getRandomChar(List<Character> excluded, Character lastChar){
         int index;
-        char chr;
+        Character chr;
         while(true) {
             index = rand.nextInt((maxIndex - minIndex) + 1) + minIndex;
             chr = characters[index];
+
+            if(lastChar != null && lastChar.equals(chr))
+                continue;
 
             if(!excluded.contains(chr))
                 return chr;

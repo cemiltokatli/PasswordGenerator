@@ -215,9 +215,11 @@ public class Password {
 
         //Generate
         StringBuilder generatedPassword = new StringBuilder();
+        Character lastChar = null;
 
         for(int i = 0; i < length; i++){
-            generatedPassword.append(type.getRandomChar(excludedChars));
+            lastChar= type.getRandomChar(excludedChars, lastChar);
+            generatedPassword.append(lastChar);
         }
 
         return generatedPassword.toString();
