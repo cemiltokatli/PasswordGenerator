@@ -1,5 +1,7 @@
 package com.cemiltokatli.passwordgenerate;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -196,7 +198,7 @@ public class Password {
     }
 
     /**
-     * Generates the password and returns it.
+     * Generates a password and returns it.
      *
      * @return generated password
      */
