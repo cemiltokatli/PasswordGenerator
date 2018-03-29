@@ -79,7 +79,7 @@ public class PasswordTest {
 
                 //Excluded Chars
                 JSONArray excluded = item.getJSONArray("excluded");
-                password.excluded = new char[excluded.length()];
+                password.excluded = new Character[excluded.length()];
                 for(int j = 0; j <  excluded.length(); j++){
                     password.excluded[j] = excluded.getString(j).charAt(0);
                 }
@@ -164,6 +164,63 @@ public class PasswordTest {
         }
     }
 
+    /**
+     * Tests if the generated password contains only expected characters
+     * with excluding some characters
+     */
+    @Test
+    @DisplayName("Test generated password type and excluded chars")
+    public void testTypeExclude(){
+        if(!testData.isEmpty())
+            readTestData("PasswordTestData", testData);
+
+        String alphaPattern = "[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]*";
+        String numericPattern = "[0123456789]*";
+        String alphanumericPattern = "[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789]*";
+        String symbolPattern = "[~`!@#£€$()*^&°%§¥¢?.,<>'\";:/\\\\|\\[\\]{}=+_\\-]*";
+        String allPattern = "[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#£€$()*^&°%§¥¢?.,<>'\";:/\\\\|\\[\\]{}=+_\\-]*";
+
+        String generatedPassword;
+        Password passwordGenerator;
+        PasswordGenerate password;
+        List<Character> excludedChars;
+
+        for(int i = 0; i < testData.size(); i++){
+            for(int j = 0; j < 20; j++){ //Test each of test criteria 20 different generation
+                password = testData.get(i);
+                passwordGenerator = Password.createPassword(password.type, password.minLength, password.maxLength);
+                for(char c : password.excluded)
+                    passwordGenerator.addExcludedChar(c);
+
+                excludedChars = Arrays.asList(password.excluded);
+                generatedPassword = passwordGenerator.generate();
+
+
+                if(password.type == PasswordType.ALL){
+                    assertEquals(true, Pattern.matches(allPattern, generatedPassword), "Password contains wrong characters. Password: "+generatedPassword+" Type: All");
+                }
+                else if(password.type == PasswordType.ALPHA){
+                    assertEquals(true, Pattern.matches(alphaPattern, generatedPassword), "Password contains wrong characters. Password: "+generatedPassword+" Type: Alpha");
+                }
+                else if(password.type == PasswordType.NUMERIC){
+                    assertEquals(true, Pattern.matches(numericPattern, generatedPassword), "Password contains wrong characters. Password: "+generatedPassword+" Type: Numeric");
+                }
+                else if(password.type == PasswordType.ALPHANUMERIC){
+                    assertEquals(true, Pattern.matches(alphanumericPattern, generatedPassword), "Password contains wrong characters. Password: "+generatedPassword+" Type: Alphanumeric");
+                }
+                else if(password.type == PasswordType.SYMBOLS){
+                    assertEquals(true, Pattern.matches(symbolPattern, generatedPassword), "Password contains wrong characters. Password: "+generatedPassword+" Type: Symbols");
+                }
+                
+                for(int k = 0; k < generatedPassword.length(); k++){
+                    if(excludedChars.contains(generatedPassword.charAt(k))){
+                        fail("Password contains a character that has been excluded. Char: "+generatedPassword.charAt(k)+" Password: "+generatedPassword);
+                    }
+                }
+            }
+        }
+    }
+
 
     /**
      * An object of this class represents a single password generating process for testing purposes.
@@ -171,7 +228,7 @@ public class PasswordTest {
     private class PasswordGenerate{
         int minLength;
         int maxLength;
-        char[] excluded;
+        Character[] excluded;
         PasswordType type;
     }
 }
