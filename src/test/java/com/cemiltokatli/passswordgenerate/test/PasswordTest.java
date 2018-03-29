@@ -211,7 +211,7 @@ public class PasswordTest {
                 else if(password.type == PasswordType.SYMBOLS){
                     assertEquals(true, Pattern.matches(symbolPattern, generatedPassword), "Password contains wrong characters. Password: "+generatedPassword+" Type: Symbols");
                 }
-                
+
                 for(int k = 0; k < generatedPassword.length(); k++){
                     if(excludedChars.contains(generatedPassword.charAt(k))){
                         fail("Password contains a character that has been excluded. Char: "+generatedPassword.charAt(k)+" Password: "+generatedPassword);
