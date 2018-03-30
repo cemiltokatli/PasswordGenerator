@@ -9,7 +9,7 @@ Password Generator is available as a downloadable `.jar` java library. You can d
 * [Download **password-generator-1.0-javadoc.jar** optional javadoc jar](http://cemiltokatli.com/libs/password-generator/password-generator-1.0-javadoc.jar)
 
 ### Maven
-If you use Maven to manage the dependencies in your project, you do not need to download the jar file; just place the following code excerpt into your POM's `<dependencies>` section:
+If you use Maven to manage the dependencies in your project, you do not need to download the jar file; just place the following code block into your POM's `<dependencies>` section:
 
 ```
 <dependency>
@@ -80,7 +80,7 @@ System.out.println(pass.generate());
 - `ALPHANUMERIC` : Only letters and numbers
 - `SYMBOLS` : Only symbols
 
-The code excerpt below creates a new password with alphanumeric characters.
+The code block below creates a new password with alphanumeric characters.
 
 ```
 Password pass = Password.createPassword(PasswordType.ALPHANUMERIC);
