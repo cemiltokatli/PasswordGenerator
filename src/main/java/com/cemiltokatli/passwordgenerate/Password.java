@@ -210,7 +210,10 @@ public class Password {
         if(minLength == maxLength) //Fixed length
             length = minLength;
         else{
-            length = rand.nextInt((maxLength - minLength) + 1) + minLength;
+            if(minLength > maxLength)
+                length = minLength;
+            else
+                length = rand.nextInt((maxLength - minLength) + 1) + minLength;
         }
 
         //Generate
@@ -218,7 +221,7 @@ public class Password {
         Character lastChar = null;
 
         for(int i = 0; i < length; i++){
-            lastChar= type.getRandomChar(excludedChars, lastChar);
+            lastChar = type.getRandomChar(excludedChars, lastChar);
             generatedPassword.append(lastChar);
         }
 
