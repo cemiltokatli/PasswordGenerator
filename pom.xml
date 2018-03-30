@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.cemiltokatli.passwordgenerator</groupId>
     <artifactId>password-generator</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <name>Password Generator</name>
     <description>Password Generator is a small Java library that allows you to generate random passwords with specific criteria. You can generate random passwords that consist of letters, numbers or symbols in the given length.</description>
     <url>https://github.com/cemiltokatli/PasswordGenerator/</url>
