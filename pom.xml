@@ -8,7 +8,7 @@
     <version>1.0-SNAPSHOT</version>
     <name>Password Generator</name>
     <description>Password Generator is a small Java library that allows you to generate random passwords with specific criteria. You can generate random passwords that consist of letters, numbers or symbols in the given length.</description>
-    <url>https://github.com/cemiltokatli/password-generator/</url>
+    <url>https://github.com/cemiltokatli/PasswordGenerator/</url>
     <properties>
         <maven.compiler.source>1.9</maven.compiler.source>
         <maven.compiler.target>1.9</maven.compiler.target>
@@ -19,7 +19,7 @@
     </organization>
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/cemiltokatli/password-generator/issues</url>
+        <url>https://github.com/cemiltokatli/PasswordGenerator/issues</url>
     </issueManagement>
     <licenses>
         <license>
@@ -182,8 +182,8 @@
         </developer>
     </developers>
     <scm>
-        <connection>scm:git:git://github.com/cemiltokatli/password-generator.git</connection>
-        <developerConnection>scm:git:ssh://github.com:cemiltokatli/password-generator.git</developerConnection>
-        <url>https://github.com/cemiltokatli/password-generator/tree/master</url>
+        <connection>scm:git:git://github.com/cemiltokatli/PasswordGenerator.git</connection>
+        <developerConnection>scm:git:ssh://github.com:cemiltokatli/PasswordGenerator.git</developerConnection>
+        <url>https://github.com/cemiltokatli/PasswordGenerator/tree/master</url>
     </scm>
 </project>
