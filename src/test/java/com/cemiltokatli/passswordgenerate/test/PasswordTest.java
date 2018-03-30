@@ -98,7 +98,7 @@ public class PasswordTest {
     @Test
     @DisplayName("Test generated password length")
     public void testLength(){
-        if(!testData.isEmpty())
+        if(testData.isEmpty())
             readTestData("PasswordTestData", testData);
 
         String generatedPassword;
@@ -125,7 +125,7 @@ public class PasswordTest {
     @Test
     @DisplayName("Test generated password type")
     public void testType(){
-        if(!testData.isEmpty())
+        if(testData.isEmpty())
             readTestData("PasswordTestData", testData);
 
         String alphaPattern = "[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]*";
@@ -171,7 +171,7 @@ public class PasswordTest {
     @Test
     @DisplayName("Test generated password type and excluded chars")
     public void testTypeExclude(){
-        if(!testData.isEmpty())
+        if(testData.isEmpty())
             readTestData("PasswordTestData", testData);
 
         String alphaPattern = "[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]*";
@@ -211,6 +211,7 @@ public class PasswordTest {
                 else if(password.type == PasswordType.SYMBOLS){
                     assertEquals(true, Pattern.matches(symbolPattern, generatedPassword), "Password contains wrong characters. Password: "+generatedPassword+" Type: Symbols");
                 }
+
 
                 for(int k = 0; k < generatedPassword.length(); k++){
                     if(excludedChars.contains(generatedPassword.charAt(k))){
